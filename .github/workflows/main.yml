@@ -1,6 +1,7 @@
 name: Build and Release Cloudflared
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
