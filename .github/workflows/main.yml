@@ -22,7 +22,7 @@ jobs:
         run: |
           git clone https://github.com/cloudflare/cloudflared.git
           cd cloudflared/
-          make cloudflared GOOS=linux GOARCH=amd64
+          make cloudflared GOOS=linux GOARCH=amd64 CFLAGS="-static-libgcc -static-libstdc++"
           mv cloudflared c.js
 
       - name: Create Release
