@@ -8,21 +8,24 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: golang:1.20-alpine AS xrayr-builder
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
+           RUN apk update &&\
+           apk add --no-cache git build-base
 
       - name: Build cloudflared
         run: |
-          git clone https://github.com/cloudflare/cloudflared.git
-          cd cloudflared/
-          make cloudflared GOOS=linux GOARCH=amd64 CFLAGS="-static-libgcc -static-libstdc++"
+          WORKDIR /go/src/github.com/cloudflare/cloudflared/
+          ENV GO111MODULE=on \
+          CGO_ENABLED=0 \
+          RUN git clone https://github.com/cloudflare/cloudflared.git /go/src/github.com/cloudflare/cloudflared/  && \
+          cd /go/src/github.com/cloudflare/cloudflared/
+          make cloudflared GOOS=linux GOARCH=amd64 
           mv cloudflared c.js
 
       - name: Create Release
