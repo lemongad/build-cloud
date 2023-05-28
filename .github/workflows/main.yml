@@ -21,7 +21,7 @@ jobs:
       - name: Build and Release
         run: |
           # 这里插入你的编译脚本
-          # ...#!/usr/bin/env sh
+          #!/usr/bin/env sh
           set -x
           VERSION="2023.5.0"
           DATE=$(date -u '+%Y-%m-%d-%H%M UTC')
